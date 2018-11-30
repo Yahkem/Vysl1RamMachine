@@ -40,6 +40,8 @@
         
         <TextBox Name="txtInstructions" Grid.Column="1" Grid.Row="1" Margin="4" 
                  Height="Auto" MaxWidth="490"
+                 AcceptsReturn="True"
+                 AcceptsTab="True"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  ScrollViewer.VerticalScrollBarVisibility="Auto" />
 

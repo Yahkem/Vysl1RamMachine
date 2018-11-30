@@ -16,6 +16,8 @@ namespace Vysl1RamMachine
         /// </summary>
         public const int HASH_VALUE = int.MaxValue;
 
+        public int MaxOperationsBeforeHalt { get; set; } = 10000;
+
         public Tape InputTape { get; set; } = new Tape();
         public Tape OutputTape { get; set; } = new Tape();
 
@@ -39,12 +41,18 @@ namespace Vysl1RamMachine
         public string Run()
         {
             string result = "";
+            int iteration = 0;
 
             while (!halt)
             {
                 var opToInterpret = ProgramTape[ProgramCounter];
 
                 InterpretOperation(opToInterpret);
+
+                ++iteration;
+
+                if (iteration == MaxOperationsBeforeHalt)
+                    throw new Exception("RAM interrupted program execution - too many operations (possible infinite loop).");
             }
 
             halt = false;

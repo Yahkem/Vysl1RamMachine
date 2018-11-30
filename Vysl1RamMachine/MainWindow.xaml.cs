@@ -76,13 +76,13 @@ namespace Vysl1RamMachine
                 return;
             }
                 
-            ControlUnit = new ControlUnit(inputText, validOperations, (bool)chcLinesFromZero.IsChecked);
-
-            // TODO further validations?
-
             string result = "";
+
             try
             {
+                ControlUnit = new ControlUnit(inputText, validOperations, (bool)chcLinesFromZero.IsChecked);
+                // TODO further validations?
+
                 result = ControlUnit.Run();
             }
             catch (Exception ex)
