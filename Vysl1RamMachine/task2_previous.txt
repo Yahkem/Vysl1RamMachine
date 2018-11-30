@@ -1,0 +1,14 @@
+# Pr.2: zapsat pocet znaku, napr. 123# -> 3, 00000# -> 5
+# !!Tento priklad ma radky cislovane od 1!!
+
+1.	LOAD =0		# ulozeni '0' do r0
+2.	STORE 1		# 0 ulozim do r1
+3.	READ		# prectu vstupni znak
+4.	JHASH 9		# konec vstupu? skocim na 9. radek a vypisu vystup
+5.	LOAD 1		# r1->r0
+6.	ADD =1		# r0+1
+7.	STORE 1		# r0->r1
+8.	JUMP 3		# cti dalsi
+9.	LOAD 1		# nactu hodnotu z r1->r0
+10.	WRITE		# zapis hodnotu z r0 na vstup
+11.	HALT		# konec!

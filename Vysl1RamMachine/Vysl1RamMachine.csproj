@@ -55,6 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Instruction.cs" />
+    <Compile Include="OperandType.cs" />
+    <Compile Include="Operation.cs" />
+    <Compile Include="ControlUnit.cs" />
+    <Compile Include="Tape.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -93,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="task1_previous.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="task2_previous.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

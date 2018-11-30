@@ -1,0 +1,28 @@
+# Zadani c.1: vstupni pasku zapiseme pozpatku na vystupni: 123# -> 321; 5552# -> 2555
+
+# cti postupne do registru hodnoty
+# az dojdes na # (konec vstupni), cti z registru pozpatku (zasobnik) a zapisuj na vystupni
+
+0. 	LOAD =2 		# ulozeni do pracovniho registru r0 (inicializace), prvni registr po index. registru je r2
+1. 	STORE 1 		# hodnota z r0->r1
+2. 	READ 			# do pracovního registru r0 se načte vstup a čtecí hlava se posune doprava
+3. 	JHASH 9			# zacni zapisovat na vystupni, kdyz precte '#' na vstupu (uz je konec)
+4. 	STORE *1		# ulozit hodnotu z prac. registru do pametoveho registru urceneho hodnotou v index. registru r1
+5. 	LOAD 1			# nacte hodnotu z indexoveho registru r1 (r1->r0)
+6. 	ADD =1			# k prac. registru pricetl 1
+7. 	STORE 1			# ulozeni zpet z r0->r1 (inkrement indexu)
+8.	JUMP 2			# opakuj od radku c. 2
+
+# zapisovani na vystupni pasku
+9.	LOAD 1				# nejdriv fix indexu v r1 (dekrement)
+10.	SUB =1
+11.	STORE 1
+12.	LOAD *1			# r[r1]->r0
+13. 	WRITE			# r0->vystup
+14. 	LOAD 1			# r1->r0
+15. 	SUB =2			# r0 = r0-2
+16. 	JZERO 20		# znamena, ze v r1 bylo "2", cili pam. registr odkazoval na r2 (prvni znak ze vstupu)	
+17.  	ADD =1			# r0 = r0+1
+18. 	STORE 1			# defacto dekrement indexu (--i)
+19. 	JUMP 12			# skoc na 9, pak precti predchozi znak a pokracuj...
+20. 	HALT
