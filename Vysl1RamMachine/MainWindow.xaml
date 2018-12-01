@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="Input tape:" HorizontalAlignment="Right" Margin="4" />
-        <TextBox Name="txtInputTape" Grid.Row="0" Grid.Column="1" Margin="4" Text="123456789#" ></TextBox>
+        <TextBox Name="txtInputTape" Grid.Row="0" Grid.Column="1" Margin="4" Text="000010000011000100000101"></TextBox>
 
         <Button Name="btnLoadFile" 
                 HorizontalAlignment="Center"
@@ -29,7 +29,7 @@
                 Click="BtnLoadFile_Click"/>
 
         <CheckBox Name="chcLinesFromZero" Content="Lines are numbered from 0"
-                  IsChecked="True"
+                  IsChecked="False"
                   Grid.Column="0"
                   Grid.Row="1"
                   Margin="4"

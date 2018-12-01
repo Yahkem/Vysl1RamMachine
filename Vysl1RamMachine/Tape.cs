@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Vysl1RamMachine
 {
-    public class Tape
+    public class Tape<T>
     {
-        public List<int> TapeContent { get; set; } = new List<int>();
+        public List<T> TapeContent { get; set; } = new List<T>();
         public int Index { get; set; } = 0;
     }
 }

@@ -16,15 +16,15 @@ namespace Vysl1RamMachine
         /// </summary>
         public const int HASH_VALUE = int.MaxValue;
 
-        public int MaxOperationsBeforeHalt { get; set; } = 10000;
+        public int MaxOperationsBeforeHalt { get; set; } = int.MaxValue / 10;
 
-        public Tape InputTape { get; set; } = new Tape();
-        public Tape OutputTape { get; set; } = new Tape();
+        public Tape<int> InputTape { get; set; } = new Tape<int>();
+        public Tape<double> OutputTape { get; set; } = new Tape<double>();
 
         public Dictionary<int, Operation> ProgramTape { get; set; }
         public int ProgramCounter { get; set; } = 0;
 
-        public Dictionary<int, int> Register { get; set; } = new Dictionary<int, int>();
+        public Dictionary<double, double> Register { get; set; } = new Dictionary<double, double>();
         
         public ControlUnit(string inputLine, IList<Operation> operations, bool areLinesNumberedFromZero = true)
         {
@@ -45,10 +45,19 @@ namespace Vysl1RamMachine
 
             while (!halt)
             {
-                var opToInterpret = ProgramTape[ProgramCounter];
+                Operation opToInterpret;
+                try
+                {
+                    opToInterpret = ProgramTape[ProgramCounter];
 
-                InterpretOperation(opToInterpret);
+                    if (ProgramCounter > 70)
+                        ProgramCounter = ProgramCounter;
 
+                    InterpretOperation(opToInterpret);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
                 ++iteration;
 
                 if (iteration == MaxOperationsBeforeHalt)
@@ -56,14 +65,16 @@ namespace Vysl1RamMachine
             }
 
             halt = false;
-            result = string.Join("", OutputTape.TapeContent.Select(i => i.ToString()));
-            
+
+            result = string.Join("", OutputTape.TapeContent.Select(i => i.ToString("0.### ###")));
+            //result = OutputTape.TapeContent[0].ToString("0.###");
+
             return result;
         }
 
         private void InterpretOperation(Operation op)
         {
-            int val = 0;
+            double val = 0d;
             switch (op.Instruction)
             {
                 case Instruction.READ:
@@ -183,18 +194,18 @@ namespace Vysl1RamMachine
 
                     break;
                 case Instruction.JUMP:
-                    ProgramCounter = op.OperationValue + lineNumberModifier; // indexy jsou od 0, radky muzou byt od 1
+                    ProgramCounter = (int)(op.OperationValue + lineNumberModifier); // indexy jsou od 0, radky muzou byt od 1
                     break;
                 case Instruction.JZERO:
                     if (Register[0] == 0)
-                        ProgramCounter = op.OperationValue + lineNumberModifier; // indexy jsou od 0, radky muzou byt od 1
+                        ProgramCounter = (int)(op.OperationValue + lineNumberModifier); // indexy jsou od 0, radky muzou byt od 1
                     else
                         ++ProgramCounter;
 
                     break;
                 case Instruction.JGTZ:
                     if (Register[0] > 0)
-                        ProgramCounter = op.OperationValue + lineNumberModifier; // indexy jsou od 0, radky muzou byt od 1
+                        ProgramCounter = (int)(op.OperationValue + lineNumberModifier); // indexy jsou od 0, radky muzou byt od 1
                     else
                         ++ProgramCounter;
 
@@ -204,7 +215,7 @@ namespace Vysl1RamMachine
                     break;
                 case Instruction.JHASH:
                     if (Register[0] == HASH_VALUE)
-                        ProgramCounter = op.OperationValue + lineNumberModifier; // indexy jsou od 0, radky muzou byt od 1
+                        ProgramCounter = (int)(op.OperationValue + lineNumberModifier); // indexy jsou od 0, radky muzou byt od 1
                     else
                         ++ProgramCounter;
 
