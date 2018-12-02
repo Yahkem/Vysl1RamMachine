@@ -20,23 +20,26 @@
         <Label Grid.Row="0" Grid.Column="0" Content="Input tape:" HorizontalAlignment="Right" Margin="4" />
         <TextBox Name="txtInputTape" Grid.Row="0" Grid.Column="1" Margin="4" Text="123456789#" ></TextBox>
 
-        <Button Name="btnLoadFile" 
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <Button Name="btnLoadFile" 
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Grid.Row="1" Grid.Column="0"
-                MinWidth="80" Width="Auto" Height="60"
+                MinWidth="150" Width="Auto" Height="60"
                 Margin="4" Content="Load instruction file"
                 Click="BtnLoadFile_Click"/>
 
-        <CheckBox Name="chcLinesFromZero" Content="Lines are numbered from 0"
-                  IsChecked="True"
-                  Grid.Column="0"
-                  Grid.Row="1"
-                  Margin="4"
-                  VerticalAlignment="Center"
-                  HorizontalAlignment="Center"
-                  >
-        </CheckBox>
+            <CheckBox 
+                Name="chcLinesFromZero"
+                IsChecked="True"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+                <TextBlock>
+                    <AccessText TextWrapping="Wrap">Lines are numbered from 0</AccessText>
+                </TextBlock>
+            </CheckBox>
+        </StackPanel>
+        
         
         <TextBox Name="txtInstructions" Grid.Column="1" Grid.Row="1" Margin="4" 
                  Height="Auto" MaxWidth="490"
