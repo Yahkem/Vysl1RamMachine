@@ -65,8 +65,15 @@ namespace Vysl1RamMachine
                 Instruction != Instruction.HALT)
             {
                 // has operand
-                string operandPart = operationParts[1].Trim();
+                if (operationParts.Count() == 1)
+                {
+                    IsValid = false;
+                    Description = $"Instruction should have an operand";
+                    return;
+                }
 
+                string operandPart = operationParts[1]?.Trim();
+                
                 char firstChar = operandPart[0];
 
                 OperandType = 
@@ -125,7 +132,10 @@ namespace Vysl1RamMachine
                 IsValid = false;
             }
 
-            Description = (Description ?? "") + $"{Instruction.ToString()} {OperationValue} by {OperandType.ToString()}";
+            Description = (Description ?? "") + $"{Instruction.ToString()}" + 
+                ((Instruction == Instruction.WRITE || Instruction == Instruction.READ || Instruction == Instruction.HALT) ? 
+                string.Empty : 
+                $" {OperationValue} by {OperandType.ToString()}");
         }
     }
 }

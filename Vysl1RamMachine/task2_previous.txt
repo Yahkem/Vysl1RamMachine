@@ -1,5 +1,6 @@
 # Pr.2: zapsat pocet znaku, napr. 123# -> 3, 00000# -> 5
 # !!Tento priklad ma radky cislovane od 1!!
+# Mozny input: 123456789#
 
 1.	LOAD =0		# ulozeni '0' do r0
 2.	STORE 1		# 0 ulozim do r1

@@ -1,4 +1,6 @@
 # Zadani c.1: vstupni pasku zapiseme pozpatku na vystupni: 123# -> 321; 5552# -> 2555
+# !!Tento priklad ma radky cislovane od 0!!
+# Mozny input: 123456#
 
 # cti postupne do registru hodnoty
 # az dojdes na # (konec vstupni), cti z registru pozpatku (zasobnik) a zapisuj na vystupni

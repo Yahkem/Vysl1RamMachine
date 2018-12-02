@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,15 +9,17 @@ namespace Vysl1RamMachine
 {
     public class ControlUnit
     {
+        private int iteration = 1;
         private bool halt = false;
-        private int lineNumberModifier;
+        private readonly int lineNumberModifier;
+        private const int secondsUntilExecutionBreak = 8;
 
         /// <summary>
         /// Hodnota oznacujici prazdny znak (pro JHASH). Predelavat register na int? by bylo uz moc prekopavani :D
         /// </summary>
         public const int HASH_VALUE = int.MaxValue;
 
-        public int MaxOperationsBeforeHalt { get; set; } = int.MaxValue / 10;
+        public int MaxOperationsBeforeHalt { get; set; } = int.MaxValue / 50;
 
         public Tape<int> InputTape { get; set; } = new Tape<int>();
         public Tape<double> OutputTape { get; set; } = new Tape<double>();
@@ -25,13 +28,15 @@ namespace Vysl1RamMachine
         public int ProgramCounter { get; set; } = 0;
 
         public Dictionary<double, double> Register { get; set; } = new Dictionary<double, double>();
+
+        public List<string> ExecutionHistory { get; set; } = new List<string>();
         
         public ControlUnit(string inputLine, IList<Operation> operations, bool areLinesNumberedFromZero = true)
         {
-            this.lineNumberModifier = areLinesNumberedFromZero ? 0 : -1;
+            lineNumberModifier = areLinesNumberedFromZero ? 0 : -1;
 
             InputTape.TapeContent = inputLine.ToCharArray()
-                .Select(c => (c=='#') ? HASH_VALUE : (int)char.GetNumericValue(c))
+                .Select(c => (c == '#') ? HASH_VALUE : (int)char.GetNumericValue(c))
                 .ToList();
 
             int i = -1;
@@ -41,7 +46,7 @@ namespace Vysl1RamMachine
         public string Run()
         {
             string result = "";
-            int iteration = 0;
+            Stopwatch sw = Stopwatch.StartNew();
 
             while (!halt)
             {
@@ -50,24 +55,25 @@ namespace Vysl1RamMachine
                 {
                     opToInterpret = ProgramTape[ProgramCounter];
 
-                    if (ProgramCounter > 70)
-                        ProgramCounter = ProgramCounter;
-
                     InterpretOperation(opToInterpret);
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                ++iteration;
+
+                if (sw.Elapsed.Seconds > secondsUntilExecutionBreak)
+                    throw new Exception("RAM interrupted program execution - it took too much time (possible infinite loop or invalid instruction).");
 
                 if (iteration == MaxOperationsBeforeHalt)
                     throw new Exception("RAM interrupted program execution - too many operations (possible infinite loop).");
+
+                ++iteration;
             }
 
             halt = false;
 
-            result = string.Join("", OutputTape.TapeContent.Select(i => i.ToString("0.### ###")));
-            //result = OutputTape.TapeContent[0].ToString("0.###");
+            result = string.Join("", OutputTape.TapeContent.Select(i => i.ToString("0.####")));
 
             return result;
         }
@@ -223,6 +229,10 @@ namespace Vysl1RamMachine
                 default:
                     throw new InvalidOperationException("wtf?");
             }
+
+            ExecutionHistory.Add($"{iteration}. { op.ToString()}");
+            Register.ToList().ForEach(kv => ExecutionHistory.Add($"\tR[{kv.Key}]={kv.Value}"));
+            ExecutionHistory.Add(string.Empty);
         }
     }
 }

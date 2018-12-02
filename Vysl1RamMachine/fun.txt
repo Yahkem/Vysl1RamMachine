@@ -11,7 +11,7 @@
 
 #inicializace registru:
 # r[1]=index, r[2]=q, r[3]=w, r[4]=e, r[5]=x, 
-# r[6]=√w, r[7]=a, r[8]=b(x), r[9]=c(x), zbytek pomocne
+# r[6]=√w, r[7]=a, r[8]=b(x), r[9]=c(x), r[10] - pomocny registr
 1. LOAD =2 # index reg. ukazuje na r2, od r2 po r9 naplnim zatim 0
 2. STORE 1
 3. LOAD =0
@@ -19,7 +19,7 @@
 5. LOAD 1
 6. ADD =1
 7. STORE 1
-8. SUB =13
+8. SUB =11
 9. JZERO 11
 10. JUMP 3 # inicializuj dalsi registr, az po hodnotu na radku c. 8 (celk. pocet registru)
 

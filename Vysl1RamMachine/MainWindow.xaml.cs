@@ -27,7 +27,7 @@ namespace Vysl1RamMachine
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = ControlUnit;
+            txtInstructions.Text = File.ReadAllText("fun.txt");
         }
 
         private void BtnLoadFile_Click(object sender, RoutedEventArgs e)
@@ -48,15 +48,17 @@ namespace Vysl1RamMachine
             string instructionsText = txtInstructions.Text,
                 inputText = txtInputTape.Text;
 
+            lstRegister.Items.Clear();
+
             if (string.IsNullOrWhiteSpace(instructionsText))
             {
-                MessageBox.Show("There are no instructions in the input.", "Empty input");
+                ShowWarning("There are no instructions in the input.", "Empty input");
                 return;
             }
             
             if (string.IsNullOrEmpty(inputText))
             {
-                MessageBox.Show("The input tape is empty.", "Empty input");
+                ShowWarning("The input tape is empty.", "Empty input");
                 return;
             }
 
@@ -72,11 +74,12 @@ namespace Vysl1RamMachine
 
             if (validOperations.Count == 0)
             {
-                MessageBox.Show("There are no valid operations in the input.", "No valid operations in input");
+                ShowError("There are no valid operations in the input.", "No valid operations in input");
                 return;
             }
                 
             string result = "";
+
 
             try
             {
@@ -84,18 +87,31 @@ namespace Vysl1RamMachine
                 // TODO further validations?
 
                 result = ControlUnit.Run();
+
+                lstRegister.Items.Clear();
+                ControlUnit.ExecutionHistory.ForEach(info => lstRegister.Items.Add(info));
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Exception happened during RAM execution: {ex.Message}",
-                    "Error");
+                ShowError($"Exception happened during RAM execution: {ex.Message}", "Unknown error");
                 return;
             }
 
-            lblResult.Content = $"Result: {result}";
+            lblResult.Text = $"Result: {result}";
             lblResult.Foreground = Brushes.Green;
             lblResult.FontWeight = FontWeights.Bold;
+        }
+
+        private void ShowError(string messageBoxText, string caption)
+        {
+            MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Error);
+            lblResult.Foreground = Brushes.Red;
+            lblResult.FontWeight = FontWeights.Bold;
+        }
+
+        private void ShowWarning(string messageBoxText, string caption)
+        {
+            MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 }
