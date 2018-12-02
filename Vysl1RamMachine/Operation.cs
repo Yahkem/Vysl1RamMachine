@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Vysl1RamMachine
         public string Description { get; set; } = null;
         public Instruction Instruction { get; set; }
         public OperandType OperandType { get; set; } = OperandType.None;
-        public int OperationValue { get; set; } = -1;
+        public double OperationValue { get; set; } = -1;
 
         public Operation(string operationLine)
         {
@@ -74,9 +75,10 @@ namespace Vysl1RamMachine
                     OperandType.Value;
 
                 int startSubstringIndex = OperandType == OperandType.Value ? 0 : 1;
-                string partToParse = operandPart.Substring(startSubstringIndex);
+                string partToParse = operandPart.Substring(startSubstringIndex).Replace(',', '.');
+                var culture = CultureInfo.InvariantCulture;
 
-                isParseSuccessful = int.TryParse(partToParse, out int operationValue);
+                isParseSuccessful = double.TryParse(partToParse, NumberStyles.Number, culture, out double operationValue);
                 if (isParseSuccessful)
                 {
                     OperationValue = operationValue;
