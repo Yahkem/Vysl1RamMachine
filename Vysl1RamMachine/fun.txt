@@ -7,8 +7,13 @@
 # 000001000101000010111000
 
 # toto zadani: q=1, w=5, e=2, x=32+16+8=56
-# sqrt(5) = 2,2360679774997896964091736687313
+# fun(x) = 225851433717
 
+# dalsi test. hodnoty:
+# 000010000011000100000101 - q=2,w=3,e=4,x=5, fun(x)=26,5389
+# 000001000001000001000001 - q=1,w=1,e=1,x=1, fun(x)=2,5
+
+# PROGRAM
 #inicializace registru:
 # r[1]=index, r[2]=q, r[3]=w, r[4]=e, r[5]=x, 
 # r[6]=√w, r[7]=a, r[8]=b(x), r[9]=c(x), r[10] - pomocny registr

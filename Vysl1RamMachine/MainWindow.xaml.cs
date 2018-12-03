@@ -27,7 +27,11 @@ namespace Vysl1RamMachine
         public MainWindow()
         {
             InitializeComponent();
-            txtInstructions.Text = File.ReadAllText("fun.txt");
+
+            const string funProgramFilepath = "fun.txt";
+
+            if (File.Exists(funProgramFilepath))
+                txtInstructions.Text = File.ReadAllText(funProgramFilepath);
         }
 
         private void BtnLoadFile_Click(object sender, RoutedEventArgs e)
@@ -79,12 +83,10 @@ namespace Vysl1RamMachine
             }
                 
             string result = "";
-
-
+            
             try
             {
                 ControlUnit = new ControlUnit(inputText, validOperations, (bool)chcLinesFromZero.IsChecked);
-                // TODO further validations?
 
                 result = ControlUnit.Run();
 
@@ -93,20 +95,22 @@ namespace Vysl1RamMachine
             }
             catch (Exception ex)
             {
-                ShowError($"Exception happened during RAM execution: {ex.Message}", "Unknown error");
+                ShowError(
+                    $"Exception happened during RAM execution: {ex.Message} Maybe you need a '#' at the end?", 
+                    "Unknown error");
                 return;
             }
 
-            lblResult.Text = $"Result: {result}";
-            lblResult.Foreground = Brushes.Green;
-            lblResult.FontWeight = FontWeights.Bold;
+            txtResult.Text = $"Result: {result}";
+            txtResult.Foreground = Brushes.Green;
+            txtResult.FontWeight = FontWeights.Bold;
         }
 
         private void ShowError(string messageBoxText, string caption)
         {
             MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Error);
-            lblResult.Foreground = Brushes.Red;
-            lblResult.FontWeight = FontWeights.Bold;
+            txtResult.Foreground = Brushes.Red;
+            txtResult.FontWeight = FontWeights.Bold;
         }
 
         private void ShowWarning(string messageBoxText, string caption)

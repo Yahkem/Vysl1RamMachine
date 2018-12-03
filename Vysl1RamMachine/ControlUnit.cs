@@ -19,7 +19,7 @@ namespace Vysl1RamMachine
         /// </summary>
         public const int HASH_VALUE = int.MaxValue;
 
-        public int MaxOperationsBeforeHalt { get; set; } = int.MaxValue / 50;
+        public int MaxOperationsBeforeHalt { get; set; } = 9999999;
 
         public Tape<int> InputTape { get; set; } = new Tape<int>();
         public Tape<double> OutputTape { get; set; } = new Tape<double>();
