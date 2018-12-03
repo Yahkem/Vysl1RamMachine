@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="Input tape:" HorizontalAlignment="Right" Margin="4" FontWeight="Bold" />
-        <TextBox Name="txtInputTape" Grid.Row="0" Grid.Column="1" Margin="4" FontWeight="Bold" Text="000010000011000100000101" Background="Yellow">
+        <TextBox Name="txtInputTape" Grid.Row="0" Grid.Column="1" Margin="4" FontWeight="Bold" Text="000001000101000010111000" Background="Yellow">
         </TextBox>
 
         <StackPanel Grid.Row="1" Grid.Column="0" Width="175">
